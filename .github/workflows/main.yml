@@ -20,9 +20,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.2'
+      uses: gradle/actions/setup-gradle@v4
 
     - name: Remove local properties
       working-directory: ./LIAN_COFFEE_Android
@@ -30,7 +28,9 @@ jobs:
 
     - name: Build APK with Gradle
       working-directory: ./LIAN_COFFEE_Android
-      run: gradle assembleDebug --stacktrace
+      run: |
+        chmod +x gradle/wrapper/gradle-wrapper.jar || true
+        gradle assembleDebug --no-daemon
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
